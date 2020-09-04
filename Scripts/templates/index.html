@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/stylesheet.css') }}">
+    <script src="{{ url_for('static',filename='javascript/ajax.js') }}"></script>
+    <title>Welcome to the chat</title>
+</head>
+<body class="index_page">
+    <div class="signup">
+        <h4>DON'T HAVE AN ACCOUNT ?</h4>
+        <form action="" method="POST">
+            <input type="text" name="userName" placeholder="Please enter your user name" onkeyup="checkUserName(this.value)">
+            <div id="check_userName_message"></div>
+            <br>
+            <input type="password" name="password" placeholder="your password goes here">
+            <br>
+            <input type="text" name="firstName" placeholder="your firstName goes here">
+            <br>
+            <input type="text" name="lastName" placeholder="your lastName goes here">
+            <br>
+            <input type="number" name="age" placeholder="your age goes here">
+            <br>
+            <input type="email" name="email" placeholder="your email goes here">
+            <br>
+            <button type="submit">Register now !</button>
+        </form>
+    </div>
+    <div class="signin">
+        <h4>ALREADY HAVE AN ACCOUNT ?</h4>
+        <form action="/login" method="post">
+            <input type="text" name="userName" placeholder="Your user name">
+            <input type="password" name="password" placeholder="Your password">
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+</body>
+</html>
