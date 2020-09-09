@@ -42,3 +42,11 @@ body.index_page{
     width: 100px;
     height: 50px;
 }
+
+div.sender{
+    text-align: right;
+}
+
+div.receiver{
+    text-align: left;
+}
