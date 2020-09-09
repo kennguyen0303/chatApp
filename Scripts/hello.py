@@ -179,6 +179,8 @@ def sendAMessage():
     if messageContent:
         #execute the below lines if there is a message sent
         time=request.args.get('time')#get the para
+        time=time.replace("%20"," ")#replace the %20 by whitespace
+        app.logger.debug(time)
         userName=session['userName']#take the current user name from session
         #check in ListOfConvo if they ever chatteed together
         cur= mysql.connection.cursor()
