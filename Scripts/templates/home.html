@@ -8,7 +8,7 @@
     <title>Homepage</title>
 </head>
 <body>
-    <h2>Welcome {{session['userName']}} !</h2>
+    <h2>Welcome <span class="username">{{session['userName']}}</span> !</h2>
     <div class="container">
         <div class="conversation_list">
             <div class="searchBar">
@@ -23,11 +23,42 @@
             <div class="chat_content" id="chat_content">
                 this is the content
             </div>
-            <div class="">
-                <textarea name="input" id="input" cols="100" rows="3"></textarea>
-                <button onclick="sendMessage()">Send</button>
-            </div>
+            <form action="" method="POST">
+                <textarea class="message" name="input" id="input" cols="100" rows="3"></textarea>
+                <button type="submit" onclick="sendMessage()">Send</button>
+            </form>
         </div>
     </div>
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+     <script type="text/javascript">
+       var socket = io.connect('http://' + document.domain + ':' + location.port);
+ 
+       socket.on( 'connect', function() {
+         socket.emit( 'my event', {
+           data: 'User Connected'
+         } )
+         var form = $( 'form' ).on( 'submit', function( e ) {
+           e.preventDefault() //prevent the form to submit to the action
+           let user_name = $( 'span.username' ).text() //may need textContent
+           let user_input = $( 'textarea.message' ).val()
+           console.log("User name is: "+user_name+" message: "+user_input)
+           socket.emit( 'my event', {
+             user_name : user_name,
+             message : user_input
+           }//this is the json object 
+           )
+           $( 'textarea.message' ).val( '' ).focus()
+         } 
+         )
+       } )
+       socket.on( 'my response', function( msg ) {
+         console.log( msg )
+         if( typeof msg.user_name !== 'undefined' ) {
+           $( 'div.chat_content' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+         }
+       })
+     </script>
 </body>
 </html>

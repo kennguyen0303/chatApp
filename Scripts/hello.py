@@ -1,9 +1,10 @@
 from flask import Flask,render_template, request, redirect,url_for,session
 from flask_mail import Mail, Message
-
+from flask_socketio import SocketIO
 # from flask_mysqldb import MySQl
 from flask_mysqldb import MySQL
 app = Flask(__name__)
+socketio = SocketIO(app)#initialize an socket object
 # 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 API key
 app.secret_key='abcd1234'
 #config db
@@ -171,6 +172,7 @@ def loadingChat():
         return "Error happen, cannot find the chatId after inserting for THE NEW CHAT"
 
 #Chatting
+new_message_status=[] #define the list of signals
 @app.route('/sendMessage',methods=['GET'])
 def sendAMessage():
     messageContent=request.args.get('content')#get the para
@@ -187,10 +189,26 @@ def sendAMessage():
         response=cur.execute("INSERT INTO `%s`(sender,content,sent_at,status) values (%s,%s,%s,'sent')",[session['chatId'],userName,messageContent,time])
         mysql.connection.commit()
         cur.close()
+        
         if response: #if insert successfully
             return "success" #return the content to add
     else: pass
 
+# @app.route('/getChatStatus', methods='[GET]')
+# def getChatStatus():
+#     global new_message_status #reference the global variable
+#     if new_message_status[session['chatId']]:#if there is a new message
+#         return "True"
+#     return "False"
+
+#**************************defining socket endpoint******************
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
+
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
 #starting the app
 if __name__=='__main__':
     app.run(debug=True)

@@ -36,11 +36,11 @@ function checkUserName(str) {
 
   //loading a chat after clicking the name
   function loadChat(str) {
-    alert(str);
     if (str.length == 0) {
       document.getElementById("chat_content").innerHTML = "";
       
     } else {
+      //setInterval(function(){ 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -51,7 +51,9 @@ function checkUserName(str) {
       };
       xmlhttp.open("GET", "/loadingChat?userName2=" + str, true);
       xmlhttp.send();
+      // }, 5000);
     }
+
   }
 
   //sending a message
