@@ -13,4 +13,16 @@ Step 1: Define variable:
 Step 2: Run the app from terminal: 
         
         flask run
+        
+        
+        
+ <h3> Features developed (Up to date) </h3>
+ 
+ 1. Sign In / Sign Up ( database: MySQL)
+ 
+ 2. Reset / confirm account by sending real Gmail
+ 
+ 3. Search for users
+ 
+ 4. Real-time chat (Using socket API)
     
